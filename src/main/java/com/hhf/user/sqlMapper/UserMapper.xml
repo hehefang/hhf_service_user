@@ -1,0 +1,434 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hhf.user.dao.UserMapper">
+	<resultMap id="BaseResultMap" type="com.hhf.model.user.User">
+		<id column="user_id" property="userId" jdbcType="DECIMAL" />
+		<result column="user_name" property="userName" jdbcType="VARCHAR" />
+		<result column="pwd" property="pwd" jdbcType="VARCHAR" />
+		<result column="pwd_key" property="pwdKey" jdbcType="CHAR" />
+		<result column="nickname" property="nickname" jdbcType="VARCHAR" />
+		<result column="type" property="type" jdbcType="DECIMAL" />
+		<result column="status" property="status" jdbcType="DECIMAL" />
+		<result column="level_id" property="levelId" jdbcType="DECIMAL" />
+		<result column="level_name" property="levelName" jdbcType="VARCHAR" />
+		<result column="mobile" property="mobile" jdbcType="CHAR" />
+		<result column="Is_mobile_check" property="isMobileCheck"
+			jdbcType="CHAR" />
+		<result column="email" property="email" jdbcType="VARCHAR" />
+		<result column="Is_email_check" property="isEmailCheck"
+			jdbcType="CHAR" />
+		<result column="id_code" property="idCode" jdbcType="CHAR" />
+		<result column="is_bind_id" property="isBindId" jdbcType="CHAR" />
+		<result column="reg_date" property="regDate" jdbcType="TIMESTAMP" />
+		<result column="reg_from" property="regFrom" jdbcType="VARCHAR" />
+		<result column="market_from" property="marketFrom" jdbcType="VARCHAR" />
+		<result column="reg_ip" property="regIp" jdbcType="VARCHAR" />
+		<result column="last_login_date" property="lastLoginDate"
+			jdbcType="TIMESTAMP" />
+		<result column="last_login_ip" property="lastLoginIp" jdbcType="CHAR" />
+		<result column="freeze_by_name" property="freezeByName"
+			jdbcType="CHAR" />
+		<result column="Freeze_by_id" property="freezeById" jdbcType="DECIMAL" />
+		<result column="freeze_by_date" property="freezeByDate"
+			jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<resultMap type="com.hhf.model.user.User" extends="BaseResultMap"
+		id="BaseResultMap2">
+		<association property="userExt" javaType="com.hhf.model.user.UserExt">
+			<id column="user_id" property="userId" jdbcType="DECIMAL" />
+			<result column="real_name" property="realName" jdbcType="VARCHAR" />
+			<result column="gender" property="gender" jdbcType="CHAR" />
+			<result column="birthday" property="birthday" jdbcType="TIMESTAMP" />
+			<result column="constellation" property="constellation"
+				jdbcType="VARCHAR" />
+			<result column="home_address" property="homeAddress" jdbcType="VARCHAR" />
+			<result column="zip_code" property="zipCode" jdbcType="CHAR" />
+			<result column="tel" property="tel" jdbcType="VARCHAR" />
+			<result column="header_pic" property="headerPic" jdbcType="VARCHAR" />
+		</association>
+	</resultMap>
+	<sql id="Base_Column_List">
+		user_id, user_name, pwd, pwd_key, nickname, type, status,
+		level_id,
+		level_name, mobile,
+		Is_mobile_check, email, Is_email_check,
+		id_code, is_bind_id, reg_date, reg_from,
+		market_from, reg_ip,
+		last_login_date, last_login_ip, freeze_by_name,
+		Freeze_by_id,
+		freeze_by_date
+	</sql>
+	<sql id="Base_Column_List2">
+		select
+		t.user_id,t.user_name,t.pwd,t.pwd_key,t.nickname,t.type,t.status,t.level_id,t.level_name,t.mobile,
+		t.Is_mobile_check,t.email,t.Is_email_check,t.id_code,t.is_bind_id,t.reg_date,t.reg_from,t.market_from,t.reg_ip,
+		t.last_login_date,t.last_login_ip,t.freeze_by_name,t.Freeze_by_id,t.freeze_by_date,
+		t1.user_id, t1.real_name, t1.gender, t1.birthday, t1.constellation,
+		t1.home_address, t1.zip_code, t1.tel,
+		t1.header_pic
+		from t_user t left outer join t_user_ext t1 on t.user_id = t1.user_id
+		where 
+			1=1
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from t_user
+		where user_id = #{userId,jdbcType=DECIMAL}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from t_user
+		where user_id = #{userId,jdbcType=DECIMAL}
+	</delete>
+	<insert id="insert" parameterType="com.hhf.model.user.User">
+		insert into t_user (user_id,
+		user_name, pwd,
+		pwd_key, nickname, type,
+		status, level_id, level_name,
+		mobile, Is_mobile_check, email,
+		Is_email_check, id_code, is_bind_id,
+		reg_date, reg_from, market_from,
+		reg_ip, last_login_date,
+		last_login_ip,
+		freeze_by_name, Freeze_by_id, freeze_by_date
+		)
+		values
+		(#{userId,jdbcType=DECIMAL}, #{userName,jdbcType=VARCHAR},
+		#{pwd,jdbcType=VARCHAR},
+		#{pwdKey,jdbcType=CHAR},
+		#{nickname,jdbcType=VARCHAR}, #{type,jdbcType=DECIMAL},
+		#{status,jdbcType=DECIMAL}, #{levelId,jdbcType=DECIMAL},
+		#{levelName,jdbcType=VARCHAR},
+		#{mobile,jdbcType=CHAR},
+		#{isMobileCheck,jdbcType=CHAR}, #{email,jdbcType=VARCHAR},
+		#{isEmailCheck,jdbcType=CHAR}, #{idCode,jdbcType=CHAR},
+		#{isBindId,jdbcType=CHAR},
+		#{regDate,jdbcType=TIMESTAMP},
+		#{regFrom,jdbcType=VARCHAR}, #{marketFrom,jdbcType=VARCHAR},
+		#{regIp,jdbcType=VARCHAR}, #{lastLoginDate,jdbcType=TIMESTAMP},
+		#{lastLoginIp,jdbcType=CHAR},
+		#{freezeByName,jdbcType=CHAR},
+		#{freezeById,jdbcType=DECIMAL}, #{freezeByDate,jdbcType=TIMESTAMP}
+		)
+	</insert>
+	<insert id="insertSelective" keyProperty="userId"
+		useGeneratedKeys="true" parameterType="com.hhf.model.user.User">
+		insert into t_user
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="userId != null">
+				user_id,
+			</if>
+			<if test="userName != null">
+				user_name,
+			</if>
+			<if test="pwd != null">
+				pwd,
+			</if>
+			<if test="pwdKey != null">
+				pwd_key,
+			</if>
+			<if test="nickname != null">
+				nickname,
+			</if>
+			<if test="type != null">
+				type,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+			<if test="levelId != null">
+				level_id,
+			</if>
+			<if test="levelName != null">
+				level_name,
+			</if>
+			<if test="mobile != null">
+				mobile,
+			</if>
+			<if test="isMobileCheck != null">
+				Is_mobile_check,
+			</if>
+			<if test="email != null">
+				email,
+			</if>
+			<if test="isEmailCheck != null">
+				Is_email_check,
+			</if>
+			<if test="idCode != null">
+				id_code,
+			</if>
+			<if test="isBindId != null">
+				is_bind_id,
+			</if>
+			<if test="regDate != null">
+				reg_date,
+			</if>
+			<if test="regFrom != null">
+				reg_from,
+			</if>
+			<if test="marketFrom != null">
+				market_from,
+			</if>
+			<if test="regIp != null">
+				reg_ip,
+			</if>
+			<if test="lastLoginDate != null">
+				last_login_date,
+			</if>
+			<if test="lastLoginIp != null">
+				last_login_ip,
+			</if>
+			<if test="freezeByName != null">
+				freeze_by_name,
+			</if>
+			<if test="freezeById != null">
+				Freeze_by_id,
+			</if>
+			<if test="freezeByDate != null">
+				freeze_by_date,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="userId != null">
+				#{userId,jdbcType=DECIMAL},
+			</if>
+			<if test="userName != null">
+				#{userName,jdbcType=VARCHAR},
+			</if>
+			<if test="pwd != null">
+				#{pwd,jdbcType=VARCHAR},
+			</if>
+			<if test="pwdKey != null">
+				#{pwdKey,jdbcType=CHAR},
+			</if>
+			<if test="nickname != null">
+				#{nickname,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				#{type,jdbcType=DECIMAL},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=DECIMAL},
+			</if>
+			<if test="levelId != null">
+				#{levelId,jdbcType=DECIMAL},
+			</if>
+			<if test="levelName != null">
+				#{levelName,jdbcType=VARCHAR},
+			</if>
+			<if test="mobile != null">
+				#{mobile,jdbcType=CHAR},
+			</if>
+			<if test="isMobileCheck != null">
+				#{isMobileCheck,jdbcType=CHAR},
+			</if>
+			<if test="email != null">
+				#{email,jdbcType=VARCHAR},
+			</if>
+			<if test="isEmailCheck != null">
+				#{isEmailCheck,jdbcType=CHAR},
+			</if>
+			<if test="idCode != null">
+				#{idCode,jdbcType=CHAR},
+			</if>
+			<if test="isBindId != null">
+				#{isBindId,jdbcType=CHAR},
+			</if>
+			<if test="regDate != null">
+				#{regDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="regFrom != null">
+				#{regFrom,jdbcType=VARCHAR},
+			</if>
+			<if test="marketFrom != null">
+				#{marketFrom,jdbcType=VARCHAR},
+			</if>
+			<if test="regIp != null">
+				#{regIp,jdbcType=VARCHAR},
+			</if>
+			<if test="lastLoginDate != null">
+				#{lastLoginDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="lastLoginIp != null">
+				#{lastLoginIp,jdbcType=CHAR},
+			</if>
+			<if test="freezeByName != null">
+				#{freezeByName,jdbcType=CHAR},
+			</if>
+			<if test="freezeById != null">
+				#{freezeById,jdbcType=DECIMAL},
+			</if>
+			<if test="freezeByDate != null">
+				#{freezeByDate,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.hhf.model.user.User">
+		update t_user
+		<set>
+			<if test="userName != null">
+				user_name = #{userName,jdbcType=VARCHAR},
+			</if>
+			<if test="pwd != null">
+				pwd = #{pwd,jdbcType=VARCHAR},
+			</if>
+			<if test="pwdKey != null">
+				pwd_key = #{pwdKey,jdbcType=CHAR},
+			</if>
+			<if test="nickname != null">
+				nickname = #{nickname,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				type = #{type,jdbcType=DECIMAL},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=DECIMAL},
+			</if>
+			<if test="levelId != null">
+				level_id = #{levelId,jdbcType=DECIMAL},
+			</if>
+			<if test="levelName != null">
+				level_name = #{levelName,jdbcType=VARCHAR},
+			</if>
+			<if test="mobile != null">
+				mobile = #{mobile,jdbcType=CHAR},
+			</if>
+			<if test="isMobileCheck != null">
+				Is_mobile_check = #{isMobileCheck,jdbcType=CHAR},
+			</if>
+			<if test="email != null">
+				email = #{email,jdbcType=VARCHAR},
+			</if>
+			<if test="isEmailCheck != null">
+				Is_email_check = #{isEmailCheck,jdbcType=CHAR},
+			</if>
+			<if test="idCode != null">
+				id_code = #{idCode,jdbcType=CHAR},
+			</if>
+			<if test="isBindId != null">
+				is_bind_id = #{isBindId,jdbcType=CHAR},
+			</if>
+			<if test="regDate != null">
+				reg_date = #{regDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="regFrom != null">
+				reg_from = #{regFrom,jdbcType=VARCHAR},
+			</if>
+			<if test="marketFrom != null">
+				market_from = #{marketFrom,jdbcType=VARCHAR},
+			</if>
+			<if test="regIp != null">
+				reg_ip = #{regIp,jdbcType=VARCHAR},
+			</if>
+			<if test="lastLoginDate != null">
+				last_login_date = #{lastLoginDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="lastLoginIp != null">
+				last_login_ip = #{lastLoginIp,jdbcType=CHAR},
+			</if>
+			<if test="freezeByName != null">
+				freeze_by_name = #{freezeByName,jdbcType=CHAR},
+			</if>
+			<if test="freezeById != null">
+				Freeze_by_id = #{freezeById,jdbcType=DECIMAL},
+			</if>
+			<if test="freezeByDate != null">
+				freeze_by_date = #{freezeByDate,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where user_id = #{userId,jdbcType=DECIMAL}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.hhf.model.user.User">
+		update t_user
+		set
+		user_name = #{userName,jdbcType=VARCHAR},
+		pwd =
+		#{pwd,jdbcType=VARCHAR},
+		pwd_key = #{pwdKey,jdbcType=CHAR},
+		nickname =
+		#{nickname,jdbcType=VARCHAR},
+		type = #{type,jdbcType=DECIMAL},
+		status =
+		#{status,jdbcType=DECIMAL},
+		level_id = #{levelId,jdbcType=DECIMAL},
+		level_name = #{levelName,jdbcType=VARCHAR},
+		mobile =
+		#{mobile,jdbcType=CHAR},
+		Is_mobile_check =
+		#{isMobileCheck,jdbcType=CHAR},
+		email = #{email,jdbcType=VARCHAR},
+		Is_email_check = #{isEmailCheck,jdbcType=CHAR},
+		id_code =
+		#{idCode,jdbcType=CHAR},
+		is_bind_id = #{isBindId,jdbcType=CHAR},
+		reg_date = #{regDate,jdbcType=TIMESTAMP},
+		reg_from =
+		#{regFrom,jdbcType=VARCHAR},
+		market_from =
+		#{marketFrom,jdbcType=VARCHAR},
+		reg_ip = #{regIp,jdbcType=VARCHAR},
+		last_login_date = #{lastLoginDate,jdbcType=TIMESTAMP},
+		last_login_ip =
+		#{lastLoginIp,jdbcType=CHAR},
+		freeze_by_name =
+		#{freezeByName,jdbcType=CHAR},
+		Freeze_by_id =
+		#{freezeById,jdbcType=DECIMAL},
+		freeze_by_date =
+		#{freezeByDate,jdbcType=TIMESTAMP}
+		where user_id =
+		#{userId,jdbcType=DECIMAL}
+	</update>
+		
+	<select id="queryUserByPage" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_user
+		<where>
+			<if test="cond.regDateStart != null and cond.regDateStart != ''" >
+	    		and date_format(reg_date, '%Y-%m-%d') &gt;= #{cond.regDateStart,jdbcType=VARCHAR}
+	    	</if>
+	    	<if test="cond.regDateEnd != null and cond.regDateEnd != ''" >
+	    		and date_format(reg_date, '%Y-%m-%d') &lt;= #{cond.regDateEnd,jdbcType=VARCHAR}
+	    	</if>
+	    	<if test="cond.userName != null and cond.userName != ''" >
+	     		<bind name="userName" value="'%' + cond.userName + '%'" />
+			 	and user_name like #{userName,jdbcType=VARCHAR}
+			</if>
+			<if test="cond.nickname != null and cond.nickname != ''" >
+	     		<bind name="nickname" value="'%' + cond.nickname + '%'" />
+			 	and nickname like #{nickname,jdbcType=VARCHAR}
+			</if>
+			<if test="cond.mobile != null and cond.mobile != ''" >
+	     		and mobile = #{cond.mobile,jdbcType=VARCHAR}
+			</if>
+		</where>
+		ORDER BY USER_ID DESC
+	</select>
+	
+	<select id="selectUserByUserName" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_user
+		<where>
+			user_name = #{userName,jdbcType=VARCHAR}
+			and status = '1'
+		</where>
+	</select>
+	<select id="selectUserByMobile" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_user
+		<where>
+			mobile = #{mobile,jdbcType=VARCHAR}
+			and status = '1'
+		</where>
+	</select>
+	<select id="getUserInfoById" resultMap="BaseResultMap2">
+		<include refid="Base_Column_List2"/>
+		and t.user_id = #{userId,jdbcType=DECIMAL}
+		and t.status = '1'
+	</select>
+</mapper>

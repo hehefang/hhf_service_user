@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hhf.user.dao.GeoMapper">
+	<resultMap id="BaseResultMap" type="com.hhf.model.user.Geo">
+		<id column="geo_id" property="geoId" jdbcType="INTEGER" />
+		<result column="geo_name" property="geoName" jdbcType="VARCHAR" />
+		<result column="geo_level" property="geoLevel" jdbcType="CHAR" />
+		<result column="type" property="type" jdbcType="CHAR" />
+		<result column="p_geo_id" property="pGeoId" jdbcType="DECIMAL" />
+		<result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		geo_id, geo_name, geo_level, type, p_geo_id, create_date
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from t_geo
+		where geo_id = #{geoId,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from t_geo
+		where geo_id = #{geoId,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.hhf.model.user.Geo">
+		insert into t_geo (geo_id, geo_name, geo_level,
+		type, p_geo_id, create_date
+		)
+		values (#{geoId,jdbcType=INTEGER}, #{geoName,jdbcType=VARCHAR},
+		#{geoLevel,jdbcType=CHAR},
+		#{type,jdbcType=CHAR}, #{pGeoId,jdbcType=DECIMAL}, #{createDate,jdbcType=TIMESTAMP}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.hhf.model.user.Geo">
+		insert into t_geo
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="geoId != null">
+				geo_id,
+			</if>
+			<if test="geoName != null">
+				geo_name,
+			</if>
+			<if test="geoLevel != null">
+				geo_level,
+			</if>
+			<if test="type != null">
+				type,
+			</if>
+			<if test="pGeoId != null">
+				p_geo_id,
+			</if>
+			<if test="createDate != null">
+				create_date,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="geoId != null">
+				#{geoId,jdbcType=INTEGER},
+			</if>
+			<if test="geoName != null">
+				#{geoName,jdbcType=VARCHAR},
+			</if>
+			<if test="geoLevel != null">
+				#{geoLevel,jdbcType=CHAR},
+			</if>
+			<if test="type != null">
+				#{type,jdbcType=CHAR},
+			</if>
+			<if test="pGeoId != null">
+				#{pGeoId,jdbcType=DECIMAL},
+			</if>
+			<if test="createDate != null">
+				#{createDate,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.hhf.model.user.Geo">
+		update t_geo
+		<set>
+			<if test="geoName != null">
+				geo_name = #{geoName,jdbcType=VARCHAR},
+			</if>
+			<if test="geoLevel != null">
+				geo_level = #{geoLevel,jdbcType=CHAR},
+			</if>
+			<if test="type != null">
+				type = #{type,jdbcType=CHAR},
+			</if>
+			<if test="pGeoId != null">
+				p_geo_id = #{pGeoId,jdbcType=DECIMAL},
+			</if>
+			<if test="createDate != null">
+				create_date = #{createDate,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where geo_id = #{geoId,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.hhf.model.user.Geo">
+		update t_geo
+		set geo_name = #{geoName,jdbcType=VARCHAR},
+		geo_level = #{geoLevel,jdbcType=CHAR},
+		type = #{type,jdbcType=CHAR},
+		p_geo_id = #{pGeoId,jdbcType=DECIMAL},
+		create_date = #{createDate,jdbcType=TIMESTAMP}
+		where geo_id = #{geoId,jdbcType=INTEGER}
+	</update>
+	<select id="getGeoByLevel" resultMap="BaseResultMap">
+		select
+			<include refid="Base_Column_List" />
+		from t_geo t
+		<where>
+			t.geo_level = #{geoLevel,jdbcType=CHAR}
+		</where>
+	</select>
+	<select id="getGeoByFid" resultMap="BaseResultMap">
+		select
+			<include refid="Base_Column_List" />
+		from t_geo t
+		<where>
+			t.p_geo_id = #{fid,jdbcType=DECIMAL}
+		</where>
+	</select>
+</mapper>
